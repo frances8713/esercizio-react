@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, UseEffect } from 'react'
 import { Odd } from './Odd'
 import { Even } from './Even'
@@ -19,15 +19,20 @@ export function Home () {
         const number = text.split(' ')[0]
 
         if(number % 2 === 0) {
-            setEven((state) => [...state, data])
+            setEven((even) => [...even, text]) 
         } else {
-            setOdd((state) => [...state, data])
+            setOdd((odd) => [...odd, text])
         }
     } 
 
+    useEffect(() => {
+        fetchRandomApi ()
+    }, [])
+
+
     function handleAddData() {
         fetchRandomApi()
-        setData(data)
+        // setData(data)
     } 
 
     function handleShowOdd() {
@@ -43,10 +48,9 @@ export function Home () {
             <h2>Il Testo è: {data}</h2>
                 <button onClick={handleAddData}>Add</button>
                 <button onClick={handleShowOdd}>Odd</button>
-                <button onClick={handleShowEven}>Even</button>
-                
-            {showOdd && <Odd num={even}/>}
-            {showEven && <Even num={odd}/>}
+                <button onClick={handleShowEven}>Even</button>    
+            {showOdd && <Odd num={odd}/>}
+            {showEven && <Even num={even}/>}
         </div>
        
     )
