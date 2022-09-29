@@ -15,7 +15,6 @@ export function Home () {
         const response = await fetch(`http://numbersapi.com/random/math`)
         const text = await response.text()
         setData(text)
-        // console.log(response)
         const number = text.split(' ')[0]
 
         if(number % 2 === 0) {
@@ -32,14 +31,29 @@ export function Home () {
 
     function handleAddData() {
         fetchRandomApi()
-        // setData(data)
     } 
 
     function handleShowOdd() {
-        setShowOdd(true)
+        setShowOdd(true)    
     }
+    
     function handleShowEven() {
-        setShowEven(true)
+        setShowEven(true)  
+
+    } 
+
+    function handleRemove(index){
+        const newOdd = odd;
+        const evenElementRemoved = newOdd.splice(index, 1)
+        setEven((prevState) => [...prevState, ...evenElementRemoved])
+        setOdd(newOdd)
+    }
+
+    function handleDelate(index){
+        const newEven = even;
+        const evenElementRemoved = newEven.splice(index, 1)
+        setOdd((prevState) => [...prevState, ...evenElementRemoved])
+        setEven(newEven)
     }
 
 
@@ -49,9 +63,14 @@ export function Home () {
                 <button onClick={handleAddData}>Add</button>
                 <button onClick={handleShowOdd}>Odd</button>
                 <button onClick={handleShowEven}>Even</button>    
-            {showOdd && <Odd num={odd}/>}
-            {showEven && <Even num={even}/>}
+            {showOdd && <Odd num={odd} remove={handleRemove}/>}
+            {showEven && <Even num={even} delate={handleDelate}/>}
         </div>
        
     )
-}
+} 
+
+//In Odd e Even ho eliminato tutto ciò che riguardava lo state perché era superfluo e così in questo modo 
+//{odd} e {even} della righe 66 e 67 sono utilizzabili. Dal componente padre Home poi li passo ai figli
+
+//Spostare da odd a even e viceversa gli elementi al click sul remove. In home devo avere un metodo che posso passare in odd e even per poter effettuare l'operazione
